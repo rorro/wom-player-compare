@@ -37,7 +37,7 @@ export default function Home() {
           rel="noopener noreferrer"
         >
           <img
-            src="/wom-logo.svg"
+            src="wom-logo.svg"
             alt="wise old man logo"
             className="h-7 w-auto"
           />
