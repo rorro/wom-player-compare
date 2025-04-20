@@ -4,7 +4,7 @@ export default function SkillRow({ metric }) {
   return (
     <tr className="border-b border-gray-700 text-sm text-gray-100">
       <td className="p-2">
-        <img src={`/metrics/${metric["metric"]}.png`} alt={metric["metric"]} />
+        <img src={`metrics/${metric["metric"]}.png`} alt={metric["metric"]} />
       </td>
       <td className="p-2 capitalize text-gray-300">
         {getMetricName(metric["metric"])}
