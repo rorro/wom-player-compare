@@ -1,8 +1,9 @@
-"use client";
-
 import { useState } from "react";
+import SkillRow from "./SkillRow";
+import BossRow from "./BossRow";
+import ActivityRow from "./ActivityRow";
 
-export default function PlayerContainer({ fetchPlayerDetails }) {
+export default function PlayerContainer({ fetchPlayerDetails, playerDetails }) {
   const [username, setUsername] = useState("");
 
   return (
@@ -20,12 +21,73 @@ export default function PlayerContainer({ fetchPlayerDetails }) {
 
         <button
           className="font-medium disabled:opacity-50 disabled:pointer-events-none shadow-button bg-blue-600 hover:bg-blue-500 text-white active:opacity-80 text-sm h-7 px-3 rounded-md"
-          onClick={(e) => fetchPlayerDetails(username)}
+          onClick={async (e) => await fetchPlayerDetails(username)}
         >
           Search
         </button>
       </div>
-      <div className="bg-gray-800">stats be here</div>
+      {playerDetails && playerDetails[username] && (
+        <>
+          <table className="w-full text-left text-sm bg-gray-800 overflow-hidden mb-2">
+            <thead className="bg-gray-800 text-gray-100">
+              <tr>
+                <th className="p-2"></th>
+                <th className="p-2">Metric</th>
+                <th className="p-2">Rank</th>
+                <th className="p-2">Level</th>
+                <th className="p-2">Experience</th>
+              </tr>
+            </thead>
+            <tbody>
+              {playerDetails &&
+                playerDetails[username] &&
+                Object.values(
+                  playerDetails[username]["latestSnapshot"]["data"]["skills"]
+                ).map((skill) => {
+                  return <SkillRow metric={skill} key={skill["metric"]} />;
+                })}
+            </tbody>
+          </table>
+
+          <table className="w-full text-left text-sm bg-gray-800 overflow-hidden mb-2">
+            <thead className="bg-gray-800 text-gray-100">
+              <tr>
+                <th className="p-2"></th>
+                <th className="p-2">Metric</th>
+                <th className="p-2">Rank</th>
+                <th className="p-2">Kills</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.values(
+                playerDetails[username]["latestSnapshot"]["data"]["bosses"]
+              ).map((boss) => {
+                return <BossRow metric={boss} key={boss["metric"]} />;
+              })}
+            </tbody>
+          </table>
+
+          <table className="w-full text-left text-sm bg-gray-800 overflow-hidden">
+            <thead className="bg-gray-800 text-gray-100">
+              <tr>
+                <th className="p-2"></th>
+                <th className="p-2">Metric</th>
+                <th className="p-2">Rank</th>
+                <th className="p-2">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.values(
+                playerDetails[username]["latestSnapshot"]["data"]["activities"]
+              ).map((activity) => {
+                return (
+                  <ActivityRow metric={activity} key={activity["metric"]} />
+                );
+              })}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 }
