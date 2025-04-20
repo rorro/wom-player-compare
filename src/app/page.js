@@ -1,12 +1,25 @@
+"use client";
+
+import PlayerContainer from "@/components/PlayerContainer";
+import client from "@/services/wiseoldman";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [playerDetails, setPlayerDetails] = useState("");
+
+  async function fetchPlayerDetails(username) {
+    const playerDetails = await client.players.getPlayerDetails(username);
+    if (!playerDetails) return;
+
+    console.log(playerDetails);
+  }
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          Wise Old Man Player Compare
-        </div>
+      <main className="flex">
+        <PlayerContainer fetchPlayerDetails={fetchPlayerDetails} />
+        <PlayerContainer />
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
         <a
