@@ -1,6 +1,6 @@
 import { getMetricName, formatNumber } from "@wise-old-man/utils";
 
-export default function BossRow({ metric, top }) {
+export default function ComputedRow({ metric, top }) {
   return (
     <tr
       className={`border-b border-gray-700 text-sm text-gray-100 ${
@@ -17,7 +17,7 @@ export default function BossRow({ metric, top }) {
         {metric.rank === -1 ? "---" : formatNumber(metric.rank)}
       </td>
       <td className="p-2 text-gray-300">
-        {metric.kills === -1 ? "---" : formatNumber(metric.kills)}
+        {metric.value === -1 ? "---" : formatNumber(metric.value)}
       </td>
     </tr>
   );
